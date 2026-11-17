@@ -1,0 +1,49 @@
+target:
+  name: jq
+sources:
+  base: .patchguard/base
+  patched: jq-src
+build:
+  system: make
+  root: .
+  makefile: PGMakefile
+  binary: jq
+  output: jq
+  timeout_seconds: 900
+  flags:
+    release:
+      - -O2
+      - -g
+      - -fPIE
+      - -pie
+      - -fstack-protector-strong
+      - -Wl,-z,relro
+      - -Wl,-z,now
+    checked:
+      - -O1
+      - -g
+      - -fno-pie
+      - -no-pie
+      - -fstack-protector-strong
+      - -fsanitize=address,undefined
+      - -fno-omit-frame-pointer
+      - -Wl,-z,relro
+      - -Wl,-z,now
+run:
+  method: stdin
+  args: ['-c', '.']
+  timeout_seconds: 12
+  max_input_bytes: 4096
+  output_limit_bytes: 16384
+  require_memory_finding: true
+  env:
+    ASAN_OPTIONS: 'detect_leaks=0:halt_on_error=1:symbolize=1'
+    UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
+corpus:
+  path: tests/fixtures/jq/cases.yaml
+oracle:
+  command: ['python3', 'tests/oracle_jq.py', '{case_args}']
+  timeout_seconds: 4
+regression:
+  dir: tests/regression/generated/jq
+  reviewed: tests/regression/reviewed/jq

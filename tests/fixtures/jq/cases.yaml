@@ -1,0 +1,29 @@
+- id: jq_nan_stack
+  kind: boundary
+  input: inputs/stack_nan.txt
+  expected_exit: 0
+  expected_stdout: expected/stack_nan.out
+  args: ['1 != .']
+  description: 'CVE-2023-50268: NaN payload comparison'
+
+- id: jq_heap_decimal
+  kind: boundary
+  input: inputs/heap_decimal.txt
+  expected_exit: 0
+  expected_stdout: expected/heap_decimal.out
+  args: ['-c', '.']
+  description: 'CVE-2023-50246: decimal stringification'
+
+- id: jq_valid_true
+  kind: valid
+  input: inputs/true.json
+  expected_exit: 0
+  expected_stdout: expected/true.out
+  args: ['-c', '.']
+
+- id: jq_valid_array
+  kind: valid
+  input: inputs/array.json
+  expected_exit: 0
+  expected_stdout: expected/array.out
+  args: ['-c', '.']

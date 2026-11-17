@@ -1,0 +1,8 @@
+/artifacts/
+/.patchguard/base/
+/tests/regression/generated/
+/jq-src/Makefile
+/jq-src/config.status
+/jq-src/config.log
+/jq-src/libtool
+/jq-src/.libs/

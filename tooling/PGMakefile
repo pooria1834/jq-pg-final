@@ -1,0 +1,7 @@
+# jq Autotools wrapper for PatchGuard.
+.PHONY: all
+all:
+	mkdir -p modules/oniguruma
+	autoreconf -fi
+	./configure --disable-docs --disable-maintainer-mode --disable-shared --enable-static --enable-decnum --with-oniguruma=yes
+	$(MAKE) --no-print-directory -f Makefile -j2 all
